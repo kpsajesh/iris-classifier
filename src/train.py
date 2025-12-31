@@ -1,6 +1,12 @@
 #pip install --upgrade pip
-#pip install numpy pandas scikit-learn matplotlib seaborn jupyter
+#pip install numpy pandas scikit-learn matplotlib seaborn 
 #python -c "import matplotlib as m; print(m.__version__)"
+
+# run from CLI
+# 1. python -m venv venv
+# 2. .\venv\Scripts\Activate.ps1  
+# 3. pip install numpy pandas scikit-learn matplotlib seaborn
+# 4. python src/train.py
 
 import os
 import numpy as np
