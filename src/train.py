@@ -1,5 +1,5 @@
 #pip install --upgrade pip
-#pip install numpy pandas scikit-learn matplotlib seaborn 
+#pip install numpy pandas scikit-learn matplotlib seaborn joblib
 #python -c "import matplotlib as m; print(m.__version__)"
 
 # run from CLI
@@ -11,6 +11,7 @@
 import os
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -21,6 +22,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+
+import joblib
 
 iris = load_iris()
 X = iris.data      # shape (150, 4)
@@ -50,6 +53,8 @@ print(conf_mat)
 output_dir = "outputs"
 os.makedirs(output_dir, exist_ok=True)
 
+joblib.dump(model, output_dir + "/model.joblib")
+
 output_file = os.path.join(output_dir, "model_results.txt")
 
 with open(output_file, "w") as f:
@@ -63,3 +68,15 @@ with open(output_file, "w") as f:
 
     f.write("Confusion Matrix:\n")
     f.write(str(conf_mat))
+
+cm_display = ConfusionMatrixDisplay(
+    confusion_matrix=conf_mat,
+    display_labels=["Setosa", "Versicolor", "Virginica"]
+)
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_title("Confusion Matrix", fontsize=14, fontweight="bold")
+cm_display.plot(ax=ax, colorbar=False)
+
+plt.savefig("outputs/confusion_matrix.png", dpi=300, bbox_inches="tight")
+plt.show()
